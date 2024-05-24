@@ -32,6 +32,12 @@ async function handleShortUrl(req, res) {
     res.redirect(entry.redirectURL);
 }
 
+async function getAllUrlsOfUser(req, res) {
+    const user = req.user;
+    const entries = await Url.find({ createdBy: user.id });
+    return res.json(entries)
+}
+
 module.exports = {
     handleGenerateNewShortURL,
     handleShortUrl,

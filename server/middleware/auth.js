@@ -13,6 +13,7 @@ function restrictToAuthenticatedUserOnly(req, res, next) {
     if (!user) {
         return res.status(401).json({ msg: 'Invalid Token' });
     }
+
     req.user = user;
     return next();
 }
