@@ -9,4 +9,4 @@ function getUserFromToken(token) {
     }
 }
 
-module.exports = getUserFromToken;
+export {getUserFromToken};

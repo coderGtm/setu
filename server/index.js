@@ -1,9 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import apiRoutes from "./routes/api";
-import staticRoutes from "./routes/static";
-import restrictToAuthenticatedUserOnly from "./middleware/auth";
+import {apiRoutes} from "./routes/api.js";
+import {staticRoutes} from "./routes/static.js";
+import {restrictToAuthenticatedUserOnly} from "./middleware/auth.js";
 
 dotenv.config()
 

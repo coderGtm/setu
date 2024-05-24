@@ -1,5 +1,6 @@
-import User from "../models/User";
-import bcrypt from "bcyptjs";
+import {User} from "../models/User.js";
+import pkg from "bcryptjs";
+const {bcrypt} = pkg;
 
 async function handleUserSignup(req, res) {
     const { username, email, password } = req.body;
@@ -69,7 +70,4 @@ async function handleUserLogin(req, res) {
     }
 }
 
-module.exports = {
-    handleUserSignup,
-    handleUserLogin
-};
+export {handleUserSignup,handleUserLogin};

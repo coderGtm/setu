@@ -1,5 +1,5 @@
-import Url from "../models/Url";
-import nanoid from "nanoid";
+import {Url} from "../models/Url.js";
+import {nanoid} from "nanoid";
 
 async function handleGenerateNewShortURL(req, res) {
     const user = req.user;
@@ -38,7 +38,4 @@ async function getAllUrlsOfUser(req, res) {
     return res.json(entries)
 }
 
-module.exports = {
-    handleGenerateNewShortURL,
-    handleShortUrl,
-}
+export { handleGenerateNewShortURL, handleShortUrl };

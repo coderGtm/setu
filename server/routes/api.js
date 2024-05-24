@@ -1,11 +1,11 @@
 import express from "express";
-import userRoutes from "./api/user";
-import urlRoutes from "./api/url"
+import {userRoutes} from "./api/user.js";
+import {urlRoutes} from "./api/url.js"
 
-const router = express.Router();
+const apiRoutes = express.Router();
 
-router.post("/user", userRoutes);
-router.post("/url", urlRoutes);
+apiRoutes.post("/user", userRoutes);
+apiRoutes.post("/url", urlRoutes);
 
 
-module.exports = router;
+export {apiRoutes};

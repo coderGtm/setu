@@ -1,4 +1,4 @@
-import getUserFromToken from "../helpers/auth";
+import {getUserFromToken} from "../helpers/auth.js";
 
 function restrictToAuthenticatedUserOnly(req, res, next) {
     const authorizationHeaderValue = req.headers["authorization"];
@@ -18,4 +18,4 @@ function restrictToAuthenticatedUserOnly(req, res, next) {
     return next();
 }
 
-module.exports = restrictToAuthenticatedUserOnly;
+export {restrictToAuthenticatedUserOnly};

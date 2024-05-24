@@ -1,8 +1,8 @@
 import express from "express";
-import handleShortUrl from "../controllers/url";
+import {handleShortUrl} from "../controllers/url.js";
 
-const router = express.Router();
+const staticRoutes = express.Router();
 
-app.get("/:shortId", handleShortUrl);
+staticRoutes.get("/:shortId", handleShortUrl);
 
-module.exports = router;
+export {staticRoutes};

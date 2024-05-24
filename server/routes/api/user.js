@@ -1,8 +1,9 @@
 import express from "express";
-import handleGenerateNewShortUrl from "../../controllers/url";
+import {handleUserSignup, handleUserLogin} from "../../controllers/user.js";
 
-const router = express.Router();
+const userRoutes = express.Router();
 
-router.post("/new", handleGenerateNewShortUrl);
+userRoutes.post("/signup", handleUserSignup);
+userRoutes.post("/login", handleUserLogin);
 
-module.exports = router;
+export {userRoutes}
