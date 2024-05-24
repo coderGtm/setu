@@ -3,13 +3,14 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import apiRoutes from "./routes/api";
 import staticRoutes from "./routes/static";
+import restrictToAuthenticatedUserOnly from "./middleware/auth";
 
 dotenv.config()
 
 const app = express();
 app.use(express.json());
 
-app.use("/api", apiRoutes);
+app.use("/api", restrictToAuthenticatedUserOnly, apiRoutes);
 app.use("/", staticRoutes);
 
 
