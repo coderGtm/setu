@@ -1,10 +1,31 @@
 import React, {useState} from 'react';
+import axios from "axios";
 
 function UrlForm() {
+    const token = localStorage.getItem("authToken");
+    const headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token || ""
+    };
+
     const [url, setUrl] = useState("");
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        alert(url);
+        try {
+            const response = await axios.post("/api/url/new", {
+                url
+            }, {headers});
+            console.log(response);
+            const shortId = response.data.id;
+            alert("Short URL created: " + window.location.origin + "/" + shortId);
+        } catch (err) {
+            console.log(err);
+            alert(err.response.data.msg);
+        }
+    }
+
+    if (token === null) {
+        return <p>Please login to create short urls</p>
     }
 
     return (

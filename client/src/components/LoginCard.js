@@ -11,7 +11,7 @@ import {
     MDBIcon,
   }
   from 'mdb-react-ui-kit';
-  import axios from "axios";
+import axios from "axios";
 
 function LoginCard() {
     localStorage.removeItem("authToken");
