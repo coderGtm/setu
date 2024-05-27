@@ -1,9 +1,13 @@
 import {User} from "../models/User.js";
-import pkg from "bcryptjs";
-const {bcrypt} = pkg;
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 async function handleUserSignup(req, res) {
     const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+        return res.status(400).json({ msg: "Please enter all fields" });
+    }
     
     try {
         let user = await User.findOne({ email });
@@ -17,8 +21,8 @@ async function handleUserSignup(req, res) {
 
         user = new User({ username, email, password });
 
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
+        const salt = await bcrypt.genSaltSync(10);
+        user.password = await bcrypt.hashSync(password, salt);
 
         await user.save();
 
@@ -41,6 +45,10 @@ async function handleUserSignup(req, res) {
 
 async function handleUserLogin(req, res) {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ msg: 'Please enter all fields' });
+    }
 
     try {
         let user = await User.findOne({ email });

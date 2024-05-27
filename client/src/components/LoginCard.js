@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     MDBBtn,
     MDBContainer,
@@ -11,11 +11,33 @@ import {
     MDBIcon,
   }
   from 'mdb-react-ui-kit';
+  import axios from "axios";
 
 function LoginCard() {
+    localStorage.removeItem("authToken");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await axios.post("/api/user/login", {
+                email,
+                password,
+            });
+
+            const token = response.data.token;
+            localStorage.setItem("authToken", token);
+            window.location.href = "/";
+        } catch (err) {
+            console.log(err);
+            alert(err.response.data.msg);
+        }
+    }
     return (
         <MDBContainer>
-    
+        <form onSubmit={handleSubmit}>
           <MDBCard className='text-black' style={{borderRadius: '25px'}}>
             <MDBCardBody>
               <MDBRow className='align-items-center'>
@@ -25,12 +47,12 @@ function LoginCard() {
     
                   <div className="d-flex flex-row align-items-center mb-4">
                     <MDBIcon fas icon="envelope me-3" size='lg'/>
-                    <MDBInput label='Your Email' id='form2' type='email'/>
+                    <MDBInput label='Your Email' id='form2' type='email' value={email} onChange={(event) => setEmail(event.target.value)}/>
                   </div>
     
                   <div className="d-flex flex-row align-items-center mb-4">
                     <MDBIcon fas icon="lock me-3" size='lg'/>
-                    <MDBInput label='Password' id='form3' type='password'/>
+                    <MDBInput label='Password' id='form3' type='password' value={password} onChange={(event) => setPassword(event.target.value)}/>
                   </div>
     
                   <div className='mb-4'>
@@ -48,7 +70,7 @@ function LoginCard() {
               </MDBRow>
             </MDBCardBody>
           </MDBCard>
-    
+        </form>
         </MDBContainer>
       );
 }

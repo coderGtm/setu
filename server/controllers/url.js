@@ -21,7 +21,7 @@ async function handleGenerateNewShortURL(req, res) {
 
 async function handleShortUrl(req, res) {
     const shortId = req.params.shortId;
-    const entry = await URL.findOneAndUpdate({
+    const entry = await Url.findOneAndUpdate({
         shortId,
     },{
         $push: {

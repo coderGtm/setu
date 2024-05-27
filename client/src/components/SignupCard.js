@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     MDBBtn,
     MDBContainer,
@@ -11,12 +11,37 @@ import {
     MDBIcon,
   }
   from 'mdb-react-ui-kit';
+import axios from "axios";
 
 function SignupCard() {
+    localStorage.removeItem("authToken");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await axios.post("/api/user/signup", {
+                username,
+                email,
+                password,
+            });
+
+            const token = response.data.token;
+            localStorage.setItem("authToken", token);
+            window.location.href = "/";
+        } catch (err) {
+            console.log(err);
+            alert(err.response.data.msg);
+        }
+    }
+
     return (
         <MDBContainer>
-    
-          <MDBCard className='text-black' style={{borderRadius: '25px'}}>
+        <form onSubmit={handleSubmit}>
+        <MDBCard className='text-black' style={{borderRadius: '25px'}}>
             <MDBCardBody>
               <MDBRow className='align-items-center'>
                 <MDBCol md='10' lg='6' className='order-2 order-lg-1 d-flex flex-column align-items-center'>
@@ -25,17 +50,17 @@ function SignupCard() {
     
                   <div className="d-flex flex-row align-items-center mb-4 ">
                     <MDBIcon fas icon="user me-3" size='lg'/>
-                    <MDBInput label='Your Username' id='form1' type='text' className='w-100'/>
+                    <MDBInput label='Your Username' id='form1' type='text' value={username} onChange={(event) => setUsername(event.target.value)} className='w-100'/>
                   </div>
     
                   <div className="d-flex flex-row align-items-center mb-4">
                     <MDBIcon fas icon="envelope me-3" size='lg'/>
-                    <MDBInput label='Your Email' id='form2' type='email'/>
+                    <MDBInput label='Your Email' id='form2' type='email' value={email} onChange={(event) => setEmail(event.target.value)}/>
                   </div>
     
                   <div className="d-flex flex-row align-items-center mb-4">
                     <MDBIcon fas icon="lock me-3" size='lg'/>
-                    <MDBInput label='Password' id='form3' type='password'/>
+                    <MDBInput label='Password' id='form3' type='password' value={password} onChange={(event) => setPassword(event.target.value)}/>
                   </div>
     
                   <div className="d-flex flex-row align-items-center mb-4">
@@ -58,7 +83,7 @@ function SignupCard() {
               </MDBRow>
             </MDBCardBody>
           </MDBCard>
-    
+        </form>
         </MDBContainer>
       );
 }
