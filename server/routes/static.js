@@ -3,6 +3,6 @@ import {handleShortUrl} from "../controllers/url.js";
 
 const staticRoutes = express.Router();
 
-staticRoutes.get("/:shortId", handleShortUrl);
+staticRoutes.get("/visit/:shortId", handleShortUrl);
 
 export {staticRoutes};

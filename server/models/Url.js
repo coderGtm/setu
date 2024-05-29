@@ -12,8 +12,8 @@ const urlSchema = new mongoose.Schema(
             required: true,
         },
         visitHistory: [{ 
-            timestamp: {type: Number },
-            ip: {type: String},
+            timestamp: {type: Number, required: true},
+            ip: {type: String, required: true},
         }],
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,

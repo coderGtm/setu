@@ -24,6 +24,7 @@ async function handleGenerateNewShortURL(req, res) {
 
 async function handleShortUrl(req, res) {
     const shortId = req.params.shortId;
+    console.log("IP: ", req.ip);
     const entry = await Url.findOneAndUpdate({
         shortId,
     },{
@@ -32,7 +33,8 @@ async function handleShortUrl(req, res) {
             ip: req.connection.remoteAddress,
         },
     });
-    res.redirect(entry.redirectURL);
+    if (!entry) return res.status(404).json({ error: "URL not found" });
+    return res.status(200).json({redirectURL: entry.redirectURL});
 }
 
 async function getAllUrlsOfUser(req, res) {

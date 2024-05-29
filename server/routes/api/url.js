@@ -1,5 +1,5 @@
 import express from "express";
-import {handleGenerateNewShortURL} from "../../controllers/url.js";
+import {handleGenerateNewShortURL } from "../../controllers/url.js";
 
 const urlRoutes = express.Router();
 
