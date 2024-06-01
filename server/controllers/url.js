@@ -29,8 +29,9 @@ async function handleShortUrl(req, res) {
         shortId,
     },{
         $push: {
-            visitHistory: {timestamp: Date.now()},
-            ip: req.connection.remoteAddress,
+            visitHistory: {timestamp: Date.now(),
+            ip: req.ip,
+            }
         },
     });
     if (!entry) return res.status(404).json({ error: "URL not found" });
