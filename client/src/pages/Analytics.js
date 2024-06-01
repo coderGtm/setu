@@ -1,14 +1,14 @@
 import React from "react";
-import UrlForm from "../components/UrlForm";
+import UrlAnalytics from "../components/UrlAnalytics";
 
-function Home() {
+function Analytics() {
   const isLoggedIn = localStorage.getItem("authToken") ? true : false;
+  const { shortId } = useParams();
 
   return (
     <div>
-      <h1>Setu Home Page</h1>
-      <p>Served by Reactjs</p>
-      {isLoggedIn && <UrlForm />}
+      <h1>Analytics for {shortId}</h1>
+      {isLoggedIn && <UrlAnalytics />}
       {!isLoggedIn && (
         <button onClick={() => (window.location.href = "/login")}>Login</button>
       )}
@@ -16,4 +16,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Analytics;

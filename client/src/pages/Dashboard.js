@@ -1,14 +1,14 @@
 import React from "react";
-import UrlForm from "../components/UrlForm";
+import DashboardContent from "../components/DashboardContent";
 
-function Home() {
+function Dashboard() {
   const isLoggedIn = localStorage.getItem("authToken") ? true : false;
+  const { shortId } = useParams();
 
   return (
     <div>
-      <h1>Setu Home Page</h1>
-      <p>Served by Reactjs</p>
-      {isLoggedIn && <UrlForm />}
+      <h1>Analytics for {shortId}</h1>
+      {isLoggedIn && <DashboardContent />}
       {!isLoggedIn && (
         <button onClick={() => (window.location.href = "/login")}>Login</button>
       )}
@@ -16,4 +16,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Dashboard;
