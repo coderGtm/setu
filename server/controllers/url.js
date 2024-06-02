@@ -40,4 +40,17 @@ async function handleShortUrl(req, res) {
   return res.status(200).json({ redirectURL: entry.redirectURL });
 }
 
-export { handleGenerateNewShortURL, handleShortUrl };
+async function getUrlAnalytics(req, res) {
+  const shortId = req.param.shortId;
+  const userId = req.user.id;
+  const entry = await Url.findOne({ shortId: shortId });
+
+  if (!entry) return res.status(404).json({ error: "URL not found" });
+  if (entry.createdBy != userId) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
+  return res.json(entry);
+}
+
+export { handleGenerateNewShortURL, handleShortUrl, getUrlAnalytics };
