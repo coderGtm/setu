@@ -1,47 +1,43 @@
-import {Url} from "../models/Url.js";
-import {nanoid} from "nanoid";
+import { Url } from "../models/Url.js";
+import { nanoid } from "nanoid";
 
 async function handleGenerateNewShortURL(req, res) {
-    const user = req.user;
-    const body = req.body;
+  const user = req.user;
+  const body = req.body;
 
-    console.log(body);
+  console.log(body);
 
-    if (!body.url) return res.status(400).json({ error: "URL is a required prameter"});
+  if (!body.url)
+    return res.status(400).json({ error: "URL is a required prameter" });
 
-    const shordId = nanoid(4);
+  const shordId = nanoid(4);
 
-    let entry = new Url({
-        shortId: shordId,
-        redirectURL: body.url,
-        visitHistory: [],
-        createdBy: user.id,
-    });
-    await entry.save();
+  let entry = new Url({
+    shortId: shordId,
+    redirectURL: body.url,
+    visitHistory: [],
+    createdBy: user.id,
+  });
+  await entry.save();
 
-    return res.status(200).json({ id: shordId });
+  return res.status(200).json({ id: shordId });
 }
 
 async function handleShortUrl(req, res) {
-    const shortId = req.params.shortId;
-    console.log("IP: ", req.ip);
-    const entry = await Url.findOneAndUpdate({
-        shortId,
-    },{
-        $push: {
-            visitHistory: {timestamp: Date.now(),
-            ip: req.ip,
-            }
-        },
-    });
-    if (!entry) return res.status(404).json({ error: "URL not found" });
-    return res.status(200).json({redirectURL: entry.redirectURL});
-}
-
-async function getAllUrlsOfUser(req, res) {
-    const user = req.user;
-    const entries = await Url.find({ createdBy: user.id });
-    return res.json(entries)
+  const shortId = req.params.shortId;
+  console.log("IP: ", req.ip);
+  const entry = await Url.findOneAndUpdate(
+    {
+      shortId,
+    },
+    {
+      $push: {
+        visitHistory: { timestamp: Date.now(), ip: req.ip },
+      },
+    },
+  );
+  if (!entry) return res.status(404).json({ error: "URL not found" });
+  return res.status(200).json({ redirectURL: entry.redirectURL });
 }
 
 export { handleGenerateNewShortURL, handleShortUrl };
