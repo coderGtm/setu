@@ -11,8 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/user", userRoutes);
-app.use("/url", urlRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/url", urlRoutes);
 
 const PORT = process.env.PORT || 5000;
 

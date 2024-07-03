@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import ShortUrlRedirect from "./pages/ShortUrl";
 import Analytics from "./pages/Analytics";
 import PageNotFound from "./pages/PageNotFound";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route exact path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/analytics/:shortId" element={<Analytics />} />
         <Route exact path="/:shortId" element={<ShortUrlRedirect />} />

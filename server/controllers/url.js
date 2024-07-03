@@ -1,16 +1,16 @@
 import { Url } from "../models/Url.js";
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 
 async function handleGenerateNewShortURL(req, res) {
   const user = req.user;
   const body = req.body;
 
-  console.log(body);
+  const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 4);
 
   if (!body.url)
     return res.status(400).json({ error: "URL is a required prameter" });
 
-  const shordId = nanoid(4);
+  const shordId = nanoid();
 
   let entry = new Url({
     shortId: shordId,

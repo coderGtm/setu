@@ -1,13 +1,16 @@
 import React from "react";
 import Main from "../components/layout/Main";
-import DashboardContent from "../components/DashboardContent";
+import ProfileContent from "../components/ProfileContent";
 
-function Dashboard() {
+function Profile() {
   const isLoggedIn = localStorage.getItem("authToken") ? true : false;
+  if (!isLoggedIn) {
+    window.location.href = "/login";
+  }
 
   return (
     <Main>
-      {isLoggedIn && <DashboardContent />}
+      {isLoggedIn && <ProfileContent />}
       {!isLoggedIn && (
         <button onClick={() => (window.location.href = "/login")}>Login</button>
       )}
@@ -15,4 +18,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Profile;
