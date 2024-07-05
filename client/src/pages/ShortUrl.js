@@ -12,7 +12,7 @@ const ShortUrlRedirect = () => {
   useEffect(() => {
     const handleRedirect = async () => {
       try {
-        const response = await axios.get(`api/url/visit/${shortId}`);
+        const response = await axios.get(`/api/url/visit/${shortId}`);
         window.location.href = response.data.redirectURL;
       } catch (err) {
         // Optionally, handle the error, e.g., show an error message to the user

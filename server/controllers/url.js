@@ -41,11 +41,16 @@ async function handleShortUrl(req, res) {
 }
 
 async function getUrlAnalytics(req, res) {
-  const shortId = req.param.shortId;
+  const shortId = req.params.shortId;
+  console.log("ShortId: ", shortId);
   const userId = req.user.id;
-  const entry = await Url.findOne({ shortId: shortId });
+  const entry = await Url.findOne({ shortId });
+  console.log("Entry: ", entry);
 
-  if (!entry) return res.status(404).json({ error: "URL not found" });
+  if (!entry) {
+    console.log("URL not found");
+    return res.status(404).json({ error: "URL not found" });
+  }
   if (entry.createdBy != userId) {
     return res.status(403).json({ error: "Unauthorized" });
   }

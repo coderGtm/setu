@@ -15,7 +15,7 @@ urlRoutes.post(
 );
 urlRoutes.get("/visit/:shortId", handleShortUrl);
 urlRoutes.get(
-  "/analytics:shortId",
+  "/analytics/:shortId",
   restrictToAuthenticatedUserOnly,
   getUrlAnalytics,
 );

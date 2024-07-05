@@ -15,27 +15,55 @@ L.Icon.Default.mergeOptions({
 });
 
 function LiveMap() {
-    const { shortId } = useParams();
+  const { shortId } = useParams();
+  console.log(shortId);
   const [visits, setVisits] = useState([]);
   const {Title} = Typography
+  const token = localStorage.getItem("authToken");
+  const headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token || ""
+  };
 
-  useEffect(() => {
-    // Fetch the visits data from the API
-    axios
-      .get(`api/url/analytics/${shortId}`)
-      .then(async (response) => {
-        const visitsWithLocation = await Promise.all(
-          response.data.map(async (visit) => {
-            const location = await getLocationFromIP(visit.ip);
-            return { ...visit, location };
-          })
-        );
-        setVisits(visitsWithLocation);
-      })
-      .catch((error) => console.error('Error fetching visits:', error));
-  }, []);
+    useEffect(() => {
+        const fetchVisits = async () => {
+            try {
+                // Fetch the visits data from the API
+                const response = await axios.get(`/api/url/analytics/${shortId}`, { headers });
+                const visitsWithLocation = await Promise.all(
+                    response.data.visitHistory.map(async (visit) => {
+                        const timestamp = new Date(visit.timestamp);
+                        // show only last 5 minutes data
+                        if (new Date() - timestamp > 5 * 60 * 1000) {
+                            return { ...visit, location: null };
+                        }
+                        const location = await getLocationFromIP(visit.ip);
+                        console.log(location);
+                        return { ...visit, location };
+                    })
+                );
+                setVisits(visitsWithLocation);
+            }
+            catch (error) {
+                console.error('Error fetching visits:', error);
+            }
+        }
+        fetchVisits();
+
+        const intervalId = setInterval(fetchVisits, 180000); // 180000 ms = 3 minutes
+        return () => clearInterval(intervalId); // Cleanup interval on component unmount
+    }, [shortId]);
 
   const getLocationFromIP = async (ip) => {
+    if (ip === "::ffff:127.0.0.1") {
+        // return vadodara location
+        return {
+          city: "Vadodara",
+          country_name: "India",
+          latitude: 22.3072,
+          longitude: 73.1812,
+        };
+    }
     try {
       const response = await axios.get(`https://ipapi.co/${ip}/json/`);
       return response.data;
